@@ -1,0 +1,231 @@
+
+:host {
+  display: block;
+  color: #30251f;
+}
+
+.bg-crema {
+  background-color: #fffaf3;
+}
+
+.logo-restaurante {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #493326;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.logo-restaurante:hover {
+  color: #79543b;
+}
+
+.logo-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #79543b;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.navbar .nav-link {
+  color: #493d34;
+  font-size: 14px;
+  margin: 0 8px;
+}
+
+.navbar .nav-link:hover {
+  color: #a36c42;
+}
+
+.btn-marron {
+  background-color: #79543b;
+  color: white;
+  border: 1px solid #79543b;
+}
+
+.btn-marron:hover {
+  background-color: #60412e;
+  color: white;
+  border-color: #60412e;
+}
+
+.btn-outline-marron {
+  border: 1px solid #79543b;
+  color: #79543b;
+}
+
+.btn-outline-marron:hover {
+  background-color: #79543b;
+  color: white;
+}
+
+.portada {
+  min-height: 570px;
+  background:
+    linear-gradient(rgba(30, 20, 13, 0.62), rgba(30, 20, 13, 0.62)),
+    url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=85')
+    center/cover no-repeat;
+  color: white;
+  padding: 70px 0;
+}
+
+.contenido-portada h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 6vw, 68px);
+  margin: 20px 0;
+}
+
+.contenido-portada p {
+  max-width: 530px;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #f0e8df;
+}
+
+.subtitulo {
+  color: #e4c39e;
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+.seccion-nosotros {
+  background-color: #fffaf3;
+}
+
+.subtitulo-seccion {
+  color: #a8754d;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.titulo-seccion {
+  font-family: Georgia, serif;
+  color: #493326;
+  font-size: 36px;
+  margin: 18px 0;
+}
+
+.texto-seccion {
+  color: #74675d;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.seccion-menu {
+  background-color: #f5eee5;
+}
+
+.tarjeta-plato {
+  background-color: #fffaf3;
+  border: none;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.tarjeta-plato img {
+  height: 230px;
+  object-fit: cover;
+}
+
+.tarjeta-plato .card-title {
+  color: #493326;
+  font-family: Georgia, serif;
+  font-size: 21px;
+}
+
+.tarjeta-plato .card-text {
+  color: #74675d;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.seccion-reserva {
+  background-color: #79543b;
+  color: white;
+}
+
+.seccion-reserva h2 {
+  font-family: Georgia, serif;
+  font-size: 34px;
+}
+
+.seccion-reserva p {
+  color: #f0e8df;
+}
+
+.btn-claro {
+  background-color: #fffaf3;
+  color: #79543b;
+}
+
+.btn-claro:hover {
+  background-color: #eadccd;
+  color: #493326;
+}
+
+.pie-pagina {
+  background-color: #212529;
+  color: white;
+  padding: 55px 0 30px;
+}
+
+.pie-pagina h3 {
+  color: #ffc107;
+  font-size: 19px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.pie-pagina p {
+  color: #f1f1f1;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 5px;
+}
+
+.pie-pagina .telefono {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.pie-inferior {
+  border-top: 1px solid #596168;
+}
+
+.pie-inferior p {
+  color: #89929a;
+  font-size: 13px;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  .portada {
+    min-height: 500px;
+  }
+
+  .contenido-portada h1 {
+    font-size: 43px;
+  }
+
+  .titulo-seccion {
+    font-size: 29px;
+  }
+
+  .seccion-reserva h2 {
+    font-size: 28px;
+  }
+}

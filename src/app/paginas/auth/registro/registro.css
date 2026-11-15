@@ -1,0 +1,88 @@
+
+.pagina-registro {
+  min-height: 100vh;
+  background-color: #f5f0e8;
+}
+
+.tarjeta-registro {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.logo-registro {
+  display: inline-block;
+  color: #8b4b2b;
+  font-family: Georgia, serif;
+  font-size: 38px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+
+.tarjeta-registro h2 {
+  color: #38251c;
+  font-family: Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.tarjeta-registro p {
+  color: #777;
+  font-size: 14px;
+}
+
+.tarjeta-registro .form-label {
+  color: #38251c;
+  font-weight: 600;
+}
+
+.tarjeta-registro .form-control {
+  padding: 12px;
+  border: 1px solid #ddd2c6;
+  border-radius: 6px;
+}
+
+.tarjeta-registro .form-control:focus {
+  border-color: #a45c38;
+  box-shadow: 0 0 0 0.2rem rgba(164, 92, 56, 0.15);
+}
+
+.btn-registro {
+  background-color: #8b4b2b;
+  color: white;
+  padding: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+}
+
+.btn-registro:hover {
+  background-color: #6f3920;
+  color: white;
+}
+
+.enlace-login,
+.volver-inicio {
+  color: #8b4b2b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.enlace-login:hover,
+.volver-inicio:hover {
+  text-decoration: underline;
+}
+
+.mensaje-error {
+  display: block;
+  color: #c0392b;
+  margin-top: 5px;
+}
+
+@media (max-width: 576px) {
+  .tarjeta-registro {
+    padding: 28px 22px;
+  }
+}

@@ -1,0 +1,192 @@
+
+<div class="reserva-container">
+
+  <header class="reserva-header">
+
+    <a routerLink="/cliente" class="volver">
+      ← Volver al panel
+    </a>
+
+    <span class="etiqueta">SABOR & TRADICIÓN</span>
+
+    <h1>Reserva tu mesa</h1>
+
+    <p>Disfruta de una experiencia especial con nosotros.</p>
+
+  </header>
+
+  <section class="reserva-card">
+
+    <h2>Detalles de tu reserva</h2>
+
+    <p class="descripcion">
+      Completa los siguientes datos para consultar la disponibilidad.
+    </p>
+
+    <form>
+
+      <div class="campo">
+
+        <label for="fecha">Fecha de reserva</label>
+
+        <input
+          type="date"
+          id="fecha"
+          class="form-control"
+          [value]="fecha"
+          (input)="fecha = $any($event.target).value">
+
+      </div>
+
+      <div class="campo">
+
+        <label for="turno">Horario</label>
+
+        <select
+          id="turno"
+          class="form-select"
+          [value]="turnoId ?? ''"
+          (change)="turnoId = $any($event.target).value ? +$any($event.target).value : null">
+
+          <option value="">Selecciona un horario</option>
+
+          @for (horario of horarios; track horario.id) {
+
+            <option [value]="horario.id">
+
+              {{ horario.descripcion }}
+              ({{ horario.horaInicio }} - {{ horario.horaFin }})
+
+            </option>
+
+          }
+
+        </select>
+
+      </div>
+
+      <div class="campo">
+
+        <label for="personas">Número de personas</label>
+
+        <input
+          type="number"
+          id="personas"
+          class="form-control"
+          min="1"
+          step="1"
+          placeholder="Ejemplo: 2"
+          [value]="numeroPersonas ?? ''"
+          (input)="numeroPersonas = $any($event.target).value === '' ? null : +$any($event.target).value">
+
+      </div>
+
+      <button
+        type="button"
+        class="btn-consultar"
+        (click)="consultarDisponibilidad()">
+
+        Consultar disponibilidad
+
+      </button>
+
+    </form>
+
+    @if (consultaRealizada) {
+
+      <section class="mesas-section">
+
+        <h3>Disponibilidad de mesas</h3>
+
+        <p>Selecciona una mesa que se encuentre disponible.</p>
+
+        <div class="leyenda-mesas">
+
+          <span class="leyenda-item">
+            <span class="indicador disponible"></span>
+            Disponible
+          </span>
+
+          <span class="leyenda-item">
+            <span class="indicador ocupada"></span>
+            Ocupada
+          </span>
+
+        </div>
+
+        @if (mesasFiltradas.length > 0) {
+
+          <div class="mesas-grid">
+
+            @for (mesa of mesasFiltradas; track mesa.id) {
+
+              <button
+                type="button"
+                class="mesa-card"
+                [class.seleccionada]="mesaSeleccionada === mesa.id"
+                [class.ocupada]="mesa.estado === 'OCUPADA'"
+                [disabled]="mesa.estado === 'OCUPADA'"
+                (click)="seleccionarMesa(mesa.id)">
+
+                <span class="mesa-numero">
+                  Mesa {{ mesa.id }}
+                </span>
+
+                <p>
+                  Capacidad: {{ mesa.capacidadMaxima }} personas
+                </p>
+
+                <span class="mesa-estado">
+                  {{ mesa.estado }}
+                </span>
+
+                @if (mesaSeleccionada === mesa.id) {
+
+                  <span class="mesa-elegida">
+                    ✓ Mesa seleccionada
+                  </span>
+
+                }
+
+              </button>
+
+            }
+
+          </div>
+
+        } @else {
+
+          <p class="sin-mesas">
+            No hay mesas disponibles para esa cantidad de personas.
+          </p>
+
+        }
+
+        @if (mesaSeleccionada !== null) {
+
+          <div class="confirmacion-reserva">
+
+            <p>
+              Has seleccionado la Mesa {{ mesaSeleccionada }}.
+            </p>
+
+            <button
+              type="button"
+              class="btn-consultar"
+              (click)="confirmarReserva()">
+
+              Confirmar reserva
+
+            </button>
+
+          </div>
+
+        }
+
+      </section>
+
+    }
+
+  </section>
+
+</div>

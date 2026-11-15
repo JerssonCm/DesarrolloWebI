@@ -1,0 +1,69 @@
+
+<div class="pagina-login">
+  <div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100 py-5">
+
+      <div class="col-12 col-md-8 col-lg-5">
+        <div class="tarjeta-login">
+
+          <div class="text-center mb-4">
+            <a routerLink="/" class="logo-login">S&T</a>
+            <h2>Bienvenido de nuevo</h2>
+            <p>Ingresa a tu cuenta para gestionar tus reservas.</p>
+          </div>
+
+          <form [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
+
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo electrónico</label>
+              <input
+                type="email"
+                id="correo"
+                class="form-control"
+                formControlName="correo"
+                placeholder="ejemplo@correo.com">
+
+              @if (formularioLogin.get('correo')?.touched && formularioLogin.get('correo')?.hasError('required')) {
+                <small class="mensaje-error">El correo electrónico es obligatorio.</small>
+              }
+
+              @if (formularioLogin.get('correo')?.touched && formularioLogin.get('correo')?.hasError('email')) {
+                <small class="mensaje-error">Ingresa un correo electrónico válido.</small>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                formControlName="password"
+                placeholder="Ingresa tu contraseña">
+
+              @if (formularioLogin.get('password')?.touched && formularioLogin.get('password')?.hasError('required')) {
+                <small class="mensaje-error">La contraseña es obligatoria.</small>
+              }
+            </div>
+
+            <button type="submit" class="btn btn-login w-100 mt-3">
+              Iniciar sesión
+            </button>
+
+          </form>
+
+          <div class="text-center mt-4">
+            <p class="mb-0">¿Aún no tienes una cuenta?</p>
+            <a routerLink="/registro" class="enlace-registro">Regístrate aquí</a>
+          </div>
+
+          <div class="text-center mt-3">
+            <a routerLink="/" class="volver-inicio">Volver al inicio</a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

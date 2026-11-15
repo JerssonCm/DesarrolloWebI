@@ -1,0 +1,159 @@
+
+<div class="panel-container">
+
+    <!-- Menú lateral -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <h2>Sabor & Tradición</h2>
+            <span>Restaurante</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a routerLink="/cliente" class="nav-link active">
+                <span>⌂</span> Inicio
+            </a>
+
+            <a routerLink="/cliente/reservas" class="nav-link">
+                <span>▣</span> Mis reservas
+            </a>
+
+            <a routerLink="/cliente/nueva-reserva" class="nav-link">
+                <span>＋</span> Reservar una mesa
+            </a>
+
+            <a routerLink="/" class="nav-link">
+                <span>⌂</span> Página principal
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a (click)="cerrarSesion()" class="nav-link">
+                <span>↪</span> Cerrar sesión
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+
+        <!-- Encabezado -->
+        <header class="topbar">
+
+            <div>
+                <span class="section-label">ÁREA DEL CLIENTE</span>
+                <h1>Mi espacio</h1>
+            </div>
+
+            <div class="user-info">
+
+                <div class="user-avatar">
+                    {{ usuario?.nombre?.charAt(0)?.toUpperCase() || 'C' }}
+                </div>
+
+                <span>{{ usuario?.nombre || 'Cliente' }}</span>
+
+            </div>
+
+        </header>
+
+        <!-- Bienvenida -->
+        <section class="welcome-section">
+
+            <div class="welcome-content">
+
+                <span class="welcome-label">SABOR & TRADICIÓN</span>
+
+                <h2>
+                    ¡Bienvenido, {{ usuario?.nombre || 'cliente' }}!
+                </h2>
+
+                <p>
+                    Nos alegra tenerte aquí. Gestiona tus reservas
+                    y consulta tus visitas al restaurante.
+                </p>
+
+
+            </div>
+
+        </section>
+
+        <!-- Mis reservas -->
+        <section class="reservations-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-label">TUS SOLICITUDES</span>
+                    <h3>Mis reservas</h3>
+
+                    <p>
+                        Consulta las reservas que has realizado
+                        con tu cuenta y revisa su estado.
+                    </p>
+                </div>
+
+                
+
+            </div>
+
+            <div class="reservations-content">
+
+                <div class="empty-icon">▣</div>
+
+                <h4>Tus reservas aparecerán aquí</h4>
+
+                <p>
+                    Cuando realices una reserva, podrás visualizarlas aqui
+                </p>
+
+                <a
+                    routerLink="/cliente/nueva-reserva"
+                    class="btn-reservar">
+                    Reservar una mesa
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- Mis visitas realizadas -->
+        <section class="reservations-section visits-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-label">TU HISTORIAL</span>
+                    <h3>Mis visitas realizadas</h3>
+
+                    <p>
+                        Aquí encontrarás las reservas que ya fueron
+                        atendidas y completadas en el restaurante.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="reservations-content">
+
+                <div class="empty-icon">✓</div>
+
+                <h4>Aún no tienes visitas completadas</h4>
+
+                <p>
+                    Cuando el administrador marque una reserva
+                    como completada después de tu visita y pago,
+                    aparecerá en esta sección.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
