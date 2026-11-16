@@ -1,0 +1,135 @@
+<div class="panel-container">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>Sabor & Tradición</h2>
+      <span>Restaurante</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/cliente" class="nav-link">
+        <span>⌂</span> Inicio
+      </a>
+      <a routerLink="/cliente/reservas" class="nav-link active">
+        <span>▣</span> Mis reservas
+      </a>
+      <a routerLink="/cliente/nueva-reserva" class="nav-link">
+        <span>＋</span> Reservar una mesa
+      </a>
+      <a routerLink="/" class="nav-link">
+        <span>⌂</span> Página principal
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a (click)="cerrarSesion()" class="nav-link">
+        <span>↪</span> Cerrar sesión
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <span class="section-label">ÁREA DEL CLIENTE</span>
+        <h1>Mis reservas</h1>
+      </div>
+
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ usuario?.nombre?.charAt(0)?.toUpperCase() || 'C' }}
+        </div>
+        <span>{{ usuario?.nombre || 'Cliente' }}</span>
+      </div>
+    </header>
+
+    <section class="reservations-section">
+      <div class="section-heading">
+        <div>
+          <span class="section-label">HISTORIAL Y SOLICITUDES</span>
+          <h3>Detalle de tus reservas</h3>
+          <p>Revisa la fecha de tu visita, la mesa asignada, el horario y el estado actual.</p>
+        </div>
+
+        <a routerLink="/cliente/nueva-reserva" class="btn-reservar">
+          ＋ Nueva reserva
+        </a>
+      </div>
+
+      <div class="filter-bar">
+        <button 
+          class="filter-btn" 
+          [class.active]="filtroEstado === 'TODAS'"
+          (click)="cambiarFiltro('TODAS')">
+          Todas ({{ reservas.length }})
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="filtroEstado === 'PENDIENTE'"
+          (click)="cambiarFiltro('PENDIENTE')">
+          Pendientes
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="filtroEstado === 'COMPLETADA'"
+          (click)="cambiarFiltro('COMPLETADA')">
+          Completadas
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="filtroEstado === 'CANCELADA'"
+          (click)="cambiarFiltro('CANCELADA')">
+          Canceladas
+        </button>
+      </div>
+
+      <div class="reservas-grid" *ngIf="reservasFiltradas.length > 0; else sinReservas">
+        <article class="reserva-card" *ngFor="let item of reservasFiltradas">
+          
+          <div class="card-header">
+            <div>
+              <span class="reserva-id">Reserva #{{ item.idReserva }}</span>
+              <h4 class="mesa-titulo">Mesa N.° {{ item.idMesa }}</h4>
+            </div>
+            <span class="badge-estado" [ngClass]="item.estado.toLowerCase()">
+              {{ item.estado }}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div class="info-item">
+              <span class="info-label">Fecha de visita (Restaurante)</span>
+              <span class="info-value">{{ item.fecha }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">Horario asignado</span>
+              <span class="info-value">{{ item.horario }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">Fecha en que se reservó</span>
+              <span class="info-value">{{ item.fechaReserva }}</span>
+            </div>
+          </div>
+
+        </article>
+      </div>
+
+      <ng-template #sinReservas>
+        <div class="reservations-content">
+          <div class="empty-icon">▣</div>
+          <h4>No hay reservas en esta categoría</h4>
+          <p>No se encontraron registros con el filtro seleccionado.</p>
+          <a routerLink="/cliente/nueva-reserva" class="btn-reservar">
+            Reservar una mesa
+          </a>
+        </div>
+      </ng-template>
+
+    </section>
+
+  </main>
+
+</div>
