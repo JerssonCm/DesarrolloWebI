@@ -263,3 +263,9 @@
 .mesa-card.ocupada .mesa-estado {
   color: #dc3545;
 }
+
+.mesa-card.seleccionada {
+  border: 2px solid #70452f;
+  background: #f5e9dd;
+  box-shadow: 0 0 0 3px rgba(112, 69, 47, 0.12);
+}

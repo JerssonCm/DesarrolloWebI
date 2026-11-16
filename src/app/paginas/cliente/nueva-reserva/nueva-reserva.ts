@@ -125,7 +125,7 @@ export class NuevaReserva implements OnInit {
 
   }
 
-  seleccionarMesa(id: number): void {
+  /*seleccionarMesa(id: number): void {
 
     const mesa = this.mesasFiltradas.find(m => m.id === id);
 
@@ -135,7 +135,27 @@ export class NuevaReserva implements OnInit {
 
     this.mesaSeleccionada = id;
 
+  }*/
+ seleccionarMesa(id: number): void {
+
+  console.log('Clic detectado en mesa:', id);
+
+  const mesa = this.mesasFiltradas.find(m => Number(m.id) === Number(id));
+
+  console.log('Mesa encontrada:', mesa);
+
+  if (!mesa || mesa.estado !== 'DISPONIBLE') {
+    console.log('No se puede seleccionar esta mesa');
+    return;
   }
+
+  this.mesaSeleccionada = id;
+
+  console.log('Mesa seleccionada:', this.mesaSeleccionada);
+
+  this.cdr.detectChanges();
+
+}
 
   confirmarReserva(): void {
 
