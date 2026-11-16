@@ -39,7 +39,7 @@ export class Login {
         alert('¡Inicio de sesión exitoso!');
 
         if (respuesta.usuario.rol?.toUpperCase() === 'ADMIN') {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/']);
         } else {
           this.router.navigate(['/']);
         }
