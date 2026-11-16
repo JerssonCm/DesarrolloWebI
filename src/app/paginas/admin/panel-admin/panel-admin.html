@@ -1,0 +1,186 @@
+<div class="panel-container">
+
+  <!-- Menú lateral Admin -->
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>Sabor & Tradición</h2>
+      <span>Administración</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a 
+        (click)="cambiarPestana('reservas')" 
+        class="nav-link" 
+        [class.active]="pestanaActiva === 'reservas'">
+        <span>▣</span> Gestión de Reservas
+      </a>
+
+      <a 
+        (click)="cambiarPestana('usuarios')" 
+        class="nav-link" 
+        [class.active]="pestanaActiva === 'usuarios'">
+        <span>👤</span> Usuarios Registrados
+      </a>
+      
+      <a routerLink="/" class="nav-link">
+        <span>⌂</span> Ir a la web
+      </a>
+      <a routerLink="/cliente" class="nav-link">
+        <span>←</span>  Atrás
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a (click)="cerrarSesion()" class="nav-link">
+        <span>↪</span> Cerrar sesión
+      </a>
+    </div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+
+    <!-- Encabezado -->
+    <header class="topbar">
+      <div>
+        <span class="section-label">PANEL DE CONTROL</span>
+        <h1>Administración del Restaurante</h1>
+      </div>
+
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ usuarioAdmin?.nombre?.charAt(0)?.toUpperCase() || 'A' }}
+        </div>
+        <span>{{ usuarioAdmin?.nombre || 'Administrador' }}</span>
+      </div>
+    </header>
+
+    <!-- Mensaje de confirmación o error -->
+    <div class="alert-box" [class.error]="esErrorAlerta" *ngIf="mensajeAlerta">
+      <span>{{ mensajeAlerta }}</span>
+      <button (click)="mensajeAlerta = ''">✕</button>
+    </div>
+
+    <!-- SECCIÓN 1: GESTIÓN DE RESERVAS -->
+    <section class="admin-section" *ngIf="pestanaActiva === 'reservas'">
+      <div class="section-heading">
+        <div>
+          <span class="section-label">CONTROL DE MESAS</span>
+          <h3>Listado de Reservas por Fecha</h3>
+          <p>Selecciona una fecha para consultar las reservas programadas y gestionar su estado.</p>
+        </div>
+
+        <div class="acciones-filtro">
+          <label for="fechaInput" class="fecha-label">Fecha:</label>
+          <input 
+            id="fechaInput"
+            type="date" 
+            class="input-fecha"
+            [(ngModel)]="fechaFiltro" 
+            (change)="cargarReservasPorFecha()" />
+          <button class="btn-refrescar" (click)="cargarReservasPorFecha()">
+            ↻ Buscar
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="admin-table" *ngIf="reservas.length > 0; else sinReservasAdmin">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Mesa</th>
+              <th>Personas</th>
+              <th>Fecha Reserva</th>
+              <th>Fecha Visita</th>
+              <th>Horario</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of reservas">
+              <td><strong>#{{ r.idReserva }}</strong></td>
+              <td>{{ r.usuario?.nombre }} (ID: {{ r.usuario?.idUsuario }})</td>
+              <td>Mesa {{ r.mesa?.numero || r.mesa?.idMesa }}</td>
+              <td>{{ r.nroPersonas }} pers.</td>
+              <td>{{ r.fechaReserva || '-' }}</td>
+              <td>{{ r.fecha }}</td>
+              <td>{{ obtenerTextoHorario(r.horarioTurno) }}</td>
+              <td>
+                <span class="badge-estado" [ngClass]="(r.estado || 'PENDIENTE').toLowerCase()">
+                  {{ r.estado }}
+                </span>
+              </td>
+              <td>
+                <button 
+                  *ngIf="(r.estado || '').toUpperCase() === 'PENDIENTE'"
+                  class="btn-cancelar"
+                  (click)="cancelarReserva(r)">
+                  Cancelar
+                </button>
+                <span 
+                  *ngIf="(r.estado || '').toUpperCase() !== 'PENDIENTE'" 
+                  class="sin-accion">
+                  Sin acciones
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ng-template #sinReservasAdmin>
+          <div class="empty-state">
+            <p *ngIf="cargandoReservas">Consultando reservas para el {{ fechaFiltro }}...</p>
+            <p *ngIf="!cargandoReservas">No hay reservas registradas para la fecha <strong>{{ fechaFiltro }}</strong>.</p>
+          </div>
+        </ng-template>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: LISTADO DE USUARIOS -->
+    <section class="admin-section" *ngIf="pestanaActiva === 'usuarios'">
+      <div class="section-heading">
+        <div>
+          <span class="section-label">DIRECTORIO</span>
+          <h3>Usuarios Registrados</h3>
+          <p>Consulta los clientes y administradores registrados en la plataforma.</p>
+        </div>
+        <button class="btn-refrescar" (click)="cargarUsuarios()">↻ Actualizar</button>
+      </div>
+
+      <div class="table-container">
+        <table class="admin-table" *ngIf="usuarios.length > 0; else sinUsuariosAdmin">
+          <thead>
+            <tr>
+              <th>ID Usuario</th>
+              <th>Nombre Completo</th>
+              <th>Correo Electrónico</th>
+              <th>Rol</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of usuarios">
+              <td><strong>#{{ u.idUsuario }}</strong></td>
+              <td>{{ u.nombre }}</td>
+              <td>{{ u.email }}</td>
+              <td>
+                <span class="badge-rol">{{ u.rol }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ng-template #sinUsuariosAdmin>
+          <div class="empty-state">
+            <p *ngIf="cargandoUsuarios">Cargando usuarios del servidor...</p>
+            <p *ngIf="!cargandoUsuarios">No se encontraron usuarios registrados.</p>
+          </div>
+        </ng-template>
+      </div>
+    </section>
+
+  </main>
+
+</div>

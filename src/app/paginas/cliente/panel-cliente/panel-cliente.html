@@ -22,7 +22,9 @@
             <a routerLink="/cliente/nueva-reserva" class="nav-link">
                 <span>＋</span> Reservar una mesa
             </a>
-
+            <a *ngIf="esAdmin" routerLink="/admin" class="nav-link">
+                <span>⌂</span> Panel Admin
+            </a>
             <a routerLink="/" class="nav-link">
                 <span>⌂</span> Página principal
             </a>

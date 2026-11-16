@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -38,7 +37,12 @@ export class Login {
     }).subscribe({
       next: (respuesta) => {
         alert('¡Inicio de sesión exitoso!');
-        this.router.navigate(['/']);
+
+        if (respuesta.usuario.rol?.toUpperCase() === 'ADMIN') {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/']);
+        }
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);
