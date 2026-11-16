@@ -3,6 +3,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface MiReservaVista {
+  //interfaz para ver las reservas del usuario
+  idReserva: number;
+  idMesa: number;
+  fechaReserva: string;
+  fecha: string;        
+  horario: string;
+  estado: 'PENDIENTE' | 'COMPLETADA' | 'CANCELADA';
+}
+
 export interface ReservaRegistro {
   idReserva: number | null;
   idMesa: number;
@@ -18,6 +28,7 @@ export interface CancelarReserva {
 }
 
 export interface ReservaVista {
+  //interfaz para que un admin pueda ver el detalle completo de una reserva
   idReserva: number;
   mesa: {
     idMesa: number;
@@ -87,5 +98,14 @@ export class ReservaService {
 
   verReservaPorId(id: number): Observable<ReservaVista> {
     return this.http.get<ReservaVista>(`${this.apiUrl}/reserva/${id}`);
+  }
+
+  verMisReservas(): Observable<MiReservaVista[]> {
+    const usuario = sessionStorage.getItem('usuario');
+    const idUsuario = usuario ? JSON.parse(usuario).idUsuario : null;
+    if (!idUsuario) {
+      throw new Error('ID de usuario no logueado');
+    }
+    return this.http.get<MiReservaVista[]>(`${this.apiUrl}/usuario/${idUsuario}`);
   }
 }

@@ -12,11 +12,10 @@ export interface DatosUsuario {
 // Coincide exactamente con el JSON que devuelve el backend al hacer login
 export interface RespuestaLogin {
   token: string;
-  idUsuario: number;
-  nombre: string;
-  email: string;
-  rol: string;
+  usuario: DatosUsuario;
+
 }
+
 
 export interface DatosRegistro {
   nombre: string;
@@ -53,16 +52,13 @@ export class AuthService {
       datos
     ).pipe(
       tap(respuesta => {
-        const usuarioParaGuardar: DatosUsuario = {
-          idUsuario: respuesta.idUsuario,
-          nombre: respuesta.nombre,
-          email: respuesta.email,
-          rol: respuesta.rol
-        };
-
+        console.log('Respuesta del servidor:', respuesta);
+        const usuarioParaGuardar: DatosUsuario = respuesta.usuario;
+        console.log('Respuesta del servidor:', usuarioParaGuardar); 
         sessionStorage.setItem('token', respuesta.token);
-        sessionStorage.setItem('rol', respuesta.rol);
+        sessionStorage.setItem('rol', respuesta.usuario.rol);
         sessionStorage.setItem('usuario', JSON.stringify(usuarioParaGuardar));
+
       })
     );
   }
