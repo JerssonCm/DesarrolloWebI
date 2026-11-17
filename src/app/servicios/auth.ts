@@ -13,9 +13,7 @@ export interface DatosUsuario {
 export interface RespuestaLogin {
   token: string;
   usuario: DatosUsuario;
-
 }
-
 
 export interface DatosRegistro {
   nombre: string;
@@ -24,6 +22,13 @@ export interface DatosRegistro {
 }
 
 export interface DatosLogin {
+  email: string;
+  password: string;
+}
+
+export interface UsuarioUpdate {
+  idUsuario: number;
+  nombre: string;
   email: string;
   password: string;
 }
@@ -54,11 +59,10 @@ export class AuthService {
       tap(respuesta => {
         console.log('Respuesta del servidor:', respuesta);
         const usuarioParaGuardar: DatosUsuario = respuesta.usuario;
-        console.log('Respuesta del servidor:', usuarioParaGuardar); 
+        console.log('Respuesta del servidor:', usuarioParaGuardar);
         sessionStorage.setItem('token', respuesta.token);
         sessionStorage.setItem('rol', respuesta.usuario.rol);
         sessionStorage.setItem('usuario', JSON.stringify(usuarioParaGuardar));
-
       })
     );
   }
@@ -88,5 +92,22 @@ export class AuthService {
 
   obtenerUsuarios(): Observable<DatosUsuario[]> {
     return this.http.get<DatosUsuario[]>(this.usersUrl);
+  }
+
+  actualizarUsuario(id: number, datos: UsuarioUpdate): Observable<string> {
+    return this.http.put(
+      `${this.usersUrl}/${id}`,
+      datos,
+      { responseType: 'text' }
+    ).pipe(
+      tap(() => {
+        const actual = this.obtenerUsuario();
+        if (actual) {
+          actual.nombre = datos.nombre;
+          actual.email = datos.email;
+          sessionStorage.setItem('usuario', JSON.stringify(actual));
+        }
+      })
+    );
   }
 }

@@ -295,3 +295,24 @@
 .alert-box.error button {
   color: #c92a2a;
 }
+
+.acciones-grupo {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-completar {
+  background: #2b8a3e;
+  color: white;
+  border: none;
+  padding: 7px 13px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-completar:hover {
+  background: #237032;
+}

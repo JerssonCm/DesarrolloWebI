@@ -107,6 +107,28 @@ export class PanelAdmin implements OnInit {
     });
   }
 
+  completarReserva(reserva: ReservaVista): void {
+    const idReserva = reserva.idReserva;
+    const idUsuario = reserva.usuario?.idUsuario || this.usuarioAdmin?.idUsuario || 0;
+
+    if (!confirm(`¿Seguro que deseas marcar la reserva #${idReserva} como COMPLETADA?`)) {
+      return;
+    }
+
+    this.reservaService.completarReserva({ idUsuario, idReserva }).subscribe({
+      next: (respuesta) => {
+        reserva.estado = 'COMPLETADA';
+        this.esErrorAlerta = false;
+        this.mensajeAlerta = respuesta || `La reserva #${idReserva} se completó correctamente.`;
+      },
+      error: (err) => {
+        console.error('Error al completar la reserva:', err);
+        this.esErrorAlerta = true;
+        this.mensajeAlerta = err.error || 'Error al completar la reserva.';
+      }
+    });
+  }
+
   obtenerTextoHorario(horarioTurno: any): string {
     if (!horarioTurno) return '-';
     return (
