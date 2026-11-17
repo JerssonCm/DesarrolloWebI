@@ -96,6 +96,14 @@ export class ReservaService {
     );
   }
 
+  completarReserva(datos: CancelarReserva): Observable<string> {
+    return this.http.post(
+      `${this.apiUrl}/completar`,
+      datos,
+      { responseType: 'text' }
+    );
+  }
+
   verReservaPorId(id: number): Observable<ReservaVista> {
     return this.http.get<ReservaVista>(`${this.apiUrl}/reserva/${id}`);
   }

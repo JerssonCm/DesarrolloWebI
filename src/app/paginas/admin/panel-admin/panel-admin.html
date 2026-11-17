@@ -114,12 +114,19 @@
                 </span>
               </td>
               <td>
-                <button 
-                  *ngIf="(r.estado || '').toUpperCase() === 'PENDIENTE'"
-                  class="btn-cancelar"
-                  (click)="cancelarReserva(r)">
-                  Cancelar
-                </button>
+                <div class="acciones-grupo" *ngIf="(r.estado || '').toUpperCase() === 'PENDIENTE'">
+                  <button 
+                    class="btn-completar"
+                    (click)="completarReserva(r)">
+                    Completar
+                  </button>
+                  <button 
+                    class="btn-cancelar"
+                    (click)="cancelarReserva(r)">
+                    Cancelar
+                  </button>
+                </div>
+
                 <span 
                   *ngIf="(r.estado || '').toUpperCase() !== 'PENDIENTE'" 
                   class="sin-accion">

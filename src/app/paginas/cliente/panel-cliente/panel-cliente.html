@@ -1,161 +1,193 @@
-
 <div class="panel-container">
 
-    <!-- Menú lateral -->
-    <aside class="sidebar">
+  <aside class="sidebar">
 
-        <div class="brand">
-            <h2>Sabor & Tradición</h2>
-            <span>Restaurante</span>
+    <div class="brand">
+      <h2>Sabor & Tradición</h2>
+      <span>Restaurante</span>
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <a routerLink="/cliente" class="nav-link active">
+        <span>⌂</span> Inicio
+      </a>
+
+      <a routerLink="/cliente/reservas" class="nav-link">
+        <span>▣</span> Mis reservas
+      </a>
+
+      <a routerLink="/cliente/nueva-reserva" class="nav-link">
+        <span>＋</span> Reservar una mesa
+      </a>
+
+      <a *ngIf="esAdmin" routerLink="/admin" class="nav-link">
+        <span>⌂</span> Panel Admin
+      </a>
+
+      <a routerLink="/" class="nav-link">
+        <span>⌂</span> Página principal
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a (click)="cerrarSesion()" class="nav-link">
+        <span>↪</span> Cerrar sesión
+      </a>
+    </div>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <span class="section-label">ÁREA DEL CLIENTE</span>
+        <h1>Mi espacio</h1>
+      </div>
+
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ usuario?.nombre?.charAt(0)?.toUpperCase() || 'C' }}
+        </div>
+        <span>{{ usuario?.nombre || 'Cliente' }}</span>
+      </div>
+    </header>
+
+    <section class="welcome-section">
+      <div class="welcome-content">
+        <span class="welcome-label">SABOR & TRADICIÓN</span>
+        <h2>¡Bienvenido, {{ usuario?.nombre || 'cliente' }}!</h2>
+        <p>
+          Nos alegra tenerte aquí. Revisa tu información personal, actualiza tus datos de cuenta o gestiona tus reservas en el restaurante.
+        </p>
+      </div>
+    </section>
+
+    <div class="alert-box success" *ngIf="mensajeExito">
+      <span>{{ mensajeExito }}</span>
+      <button (click)="mensajeExito = ''">✕</button>
+    </div>
+
+    <div class="alert-box error" *ngIf="mensajeError">
+      <span>{{ mensajeError }}</span>
+      <button (click)="mensajeError = ''">✕</button>
+    </div>
+
+    <section class="reservations-section">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-label">MI CUENTA</span>
+          <h3>Datos del cliente</h3>
+          <p>Consulta la información asociada a tu cuenta y edítala cuando lo necesites.</p>
         </div>
 
-        <nav class="sidebar-nav">
+        <button 
+          *ngIf="!modoEdicion" 
+          type="button" 
+          class="btn-reservar" 
+          (click)="activarEdicion()">
+          ✎ Editar mis datos
+        </button>
+      </div>
 
-            <a routerLink="/cliente" class="nav-link active">
-                <span>⌂</span> Inicio
-            </a>
+      <div class="profile-card">
+        <form (ngSubmit)="guardarCambios()" class="profile-form">
 
-            <a routerLink="/cliente/reservas" class="nav-link">
-                <span>▣</span> Mis reservas
-            </a>
+          <div class="form-grid">
 
-            <a routerLink="/cliente/nueva-reserva" class="nav-link">
-                <span>＋</span> Reservar una mesa
-            </a>
-            <a *ngIf="esAdmin" routerLink="/admin" class="nav-link">
-                <span>⌂</span> Panel Admin
-            </a>
-            <a routerLink="/" class="nav-link">
-                <span>⌂</span> Página principal
-            </a>
-
-        </nav>
-
-        <div class="sidebar-bottom">
-            <a (click)="cerrarSesion()" class="nav-link">
-                <span>↪</span> Cerrar sesión
-            </a>
-        </div>
-
-    </aside>
-
-    <!-- Contenido principal -->
-    <main class="main-content">
-
-        <!-- Encabezado -->
-        <header class="topbar">
-
-            <div>
-                <span class="section-label">ÁREA DEL CLIENTE</span>
-                <h1>Mi espacio</h1>
+            <div class="form-group">
+              <label for="idUsuario">ID de Cliente</label>
+              <input 
+                id="idUsuario" 
+                name="idUsuario"
+                type="text" 
+                [value]="'#' + formulario.idUsuario" 
+                disabled 
+                class="form-input readonly-input" />
             </div>
 
-            <div class="user-info">
-
-                <div class="user-avatar">
-                    {{ usuario?.nombre?.charAt(0)?.toUpperCase() || 'C' }}
-                </div>
-
-                <span>{{ usuario?.nombre || 'Cliente' }}</span>
-
+            <div class="form-group">
+              <label for="rolUsuario">Tipo de cuenta</label>
+              <input 
+                id="rolUsuario" 
+                name="rolUsuario"
+                type="text" 
+                [value]="usuario?.rol || 'CLIENTE'" 
+                disabled 
+                class="form-input readonly-input" />
             </div>
 
-        </header>
-
-        <!-- Bienvenida -->
-        <section class="welcome-section">
-
-            <div class="welcome-content">
-
-                <span class="welcome-label">SABOR & TRADICIÓN</span>
-
-                <h2>
-                    ¡Bienvenido, {{ usuario?.nombre || 'cliente' }}!
-                </h2>
-
-                <p>
-                    Nos alegra tenerte aquí. Gestiona tus reservas
-                    y consulta tus visitas al restaurante.
-                </p>
-
-
+            <div class="form-group">
+              <label for="nombre">Nombre completo</label>
+              <input 
+                id="nombre" 
+                name="nombre"
+                type="text" 
+                [(ngModel)]="formulario.nombre" 
+                [disabled]="!modoEdicion" 
+                placeholder="Tu nombre completo"
+                class="form-input" />
             </div>
 
-        </section>
-
-        <!-- Mis reservas -->
-        <section class="reservations-section">
-
-            <div class="section-heading">
-
-                <div>
-                    <span class="section-label">TUS SOLICITUDES</span>
-                    <h3>Mis reservas</h3>
-
-                    <p>
-                        Consulta las reservas que has realizado
-                        con tu cuenta y revisa su estado.
-                    </p>
-                </div>
-
-                
-
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input 
+                id="email" 
+                name="email"
+                type="email" 
+                [(ngModel)]="formulario.email" 
+                [disabled]="!modoEdicion" 
+                placeholder="tucorreo@ejemplo.com"
+                class="form-input" />
             </div>
 
-            <div class="reservations-content">
-
-                <div class="empty-icon">▣</div>
-
-                <h4>Tus reservas aparecerán aquí</h4>
-
-                <p>
-                    Cuando realices una reserva, podrás visualizarlas aqui
-                </p>
-
-                <a
-                    routerLink="/cliente/nueva-reserva"
-                    class="btn-reservar">
-                    Reservar una mesa
-                </a>
-
+            <div class="form-group full-width">
+              <label for="password">
+                {{ modoEdicion ? 'Nueva contraseña (o ingresa tu contraseña actual para confirmar)' : 'Contraseña' }}
+              </label>
+              <input 
+                *ngIf="!modoEdicion"
+                type="password" 
+                value="••••••••••••" 
+                disabled 
+                class="form-input readonly-input" />
+              <input 
+                *ngIf="modoEdicion"
+                id="password" 
+                name="password"
+                type="password" 
+                [(ngModel)]="formulario.password" 
+                placeholder="Ingresa tu nueva contraseña o la actual para guardar cambios"
+                class="form-input" />
             </div>
 
-        </section>
+          </div>
 
-        <!-- Mis visitas realizadas -->
-        <section class="reservations-section visits-section">
+          <div class="form-actions" *ngIf="modoEdicion">
+            <button 
+              type="button" 
+              class="btn-secundario" 
+              (click)="cancelarEdicion()"
+              [disabled]="guardando">
+              Cancelar
+            </button>
 
-            <div class="section-heading">
+            <button 
+              type="submit" 
+              class="btn-reservar" 
+              [disabled]="guardando">
+              {{ guardando ? 'Guardando...' : 'Guardar cambios' }}
+            </button>
+          </div>
 
-                <div>
-                    <span class="section-label">TU HISTORIAL</span>
-                    <h3>Mis visitas realizadas</h3>
+        </form>
+      </div>
 
-                    <p>
-                        Aquí encontrarás las reservas que ya fueron
-                        atendidas y completadas en el restaurante.
-                    </p>
-                </div>
+    </section>
 
-            </div>
-
-            <div class="reservations-content">
-
-                <div class="empty-icon">✓</div>
-
-                <h4>Aún no tienes visitas completadas</h4>
-
-                <p>
-                    Cuando el administrador marque una reserva
-                    como completada después de tu visita y pago,
-                    aparecerá en esta sección.
-                </p>
-
-            </div>
-
-        </section>
-
-    </main>
+  </main>
 
 </div>
-
